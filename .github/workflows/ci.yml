@@ -29,4 +29,12 @@ jobs:
         run: dotnet build src/UnitTestingTutorial.slnx --no-restore
 
       - name: Testes
-        run: dotnet test src/UnitTestingTutorial.slnx --no-build
+        run: dotnet test src/UnitTestingTutorial.slnx --no-build --collect:"XPlat Code Coverage"
+
+      - name: Publicar cobertura
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cobertura-cobertura-xml
+          path: '**/TestResults/**/coverage.cobertura.xml'
+          if-no-files-found: error
